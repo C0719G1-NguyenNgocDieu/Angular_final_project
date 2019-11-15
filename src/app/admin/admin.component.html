@@ -1,5 +1,5 @@
-<h1>Hi Admin{{currentUser.firstName}}!</h1>
-<p><a [routerLink]="['/editAdmin']">Edit</a></p>
+<h1>Hi Admin{{apiUser.firstName}}!</h1>
+<p><a [routerLink]="['/editAdmin',apiUser.id]">Edit</a></p>
 <h3>All registered users:</h3>
 <ul>
     <li *ngFor="let user of users">

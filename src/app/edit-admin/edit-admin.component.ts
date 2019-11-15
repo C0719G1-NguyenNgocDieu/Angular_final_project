@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AlertService, UserService} from "../_services";
 import {first} from "rxjs/operators";
 import {User} from "../_models";
@@ -14,38 +14,34 @@ export class EditAdminComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
-    // user: User;
+    user: User;
 
     constructor(
+        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private router: Router,
         private userService: UserService,
         private alertService: AlertService
     ) {
-        // this.userService.getMember().subscribe(next=>{
-        //     this.user=next;
-        //     // this.registerForm.patchValue(this.user);
-        //     console.log(this.user);
-        // })
     }
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
+            id: '',
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
             address: ['', Validators.required],
-            phone: ['', Validators.required],
-            email: ['', Validators.required],
+            phone: ['', Validators.minLength(9)],
+            email: ['', Validators.email],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            role: {
+            role: this.formBuilder.group({
                 id: 1
-            }
+            })
         });
-        // this.userService.getMember().subscribe(next=>{
-        //     this.user=next;
-        //     // this.registerForm.patchValue(this.user);
-        //     console.log(this.user);
-        // })
+        this.userService.getMember().subscribe(next=>{
+            this.user=next;
+            this.registerForm.patchValue(this.user);
+        })
     }
 
     // convenience getter for easy access to form fields

@@ -17,7 +17,7 @@ export class UserService {
     }
 
     getById(id: number) {
-        return this.http.get(`http://localhost:8080/api/` + id);
+        return this.http.get<User>(`http://localhost:8080/api/` + id);
     }
 
     register(user: User) {
@@ -25,7 +25,7 @@ export class UserService {
     }
 
     update(user: User) {
-        return this.http.put(`http://localhost:8080/api/` + user.id, user);
+        return this.http.put(`http://localhost:8080/api/${user.id}`, user);
     }
 
     delete(id: number) {
